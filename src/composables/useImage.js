@@ -17,13 +17,13 @@ export default function useImage() {
         }
     }
 
-    const image = computed(() => {
+    const photo = computed(() => {
         return url.value ? url.value : null;
     });
 
     return {
         url,
         uploadImage,
-        image,
+        photo,
     };
 }

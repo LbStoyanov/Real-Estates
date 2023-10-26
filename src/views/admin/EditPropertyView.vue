@@ -1,6 +1,6 @@
 <script setup>
 import { watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useFirestore, useDocument } from "vuefire";
 import { doc, updateDoc } from "firebase/firestore";
 import { useField, useForm } from "vee-validate";
@@ -12,13 +12,13 @@ import { validationSchema } from "@/validation/propertySchema";
 
 const items = [1, 2, 3, 4, 5];
 
-const { url, uploadImage, image } = useImage();
+const { url, uploadImage, photo } = useImage();
 const { zoom, center, pin } = useLocationMap();
 
 const { handleSubmit } = useForm({ validationSchema });
 
 const title = useField("title");
-const photo = useField("image");
+const image = useField("photo");
 const price = useField("price");
 const rooms = useField("rooms");
 const bathrooms = useField("bathrooms");
@@ -29,6 +29,7 @@ const garden = useField("garden");
 const airConditioning = useField("airConditioning");
 const internet = useField("internet");
 const route = useRoute();
+const router = useRouter();
 
 const { id } = route.params;
 const db = useFirestore();
@@ -49,7 +50,32 @@ watch(property, (property) => {
   center.value = property.location;
 });
 
-const submit = handleSubmit((values) => {});
+const submit = handleSubmit(async (values) => {
+  // Create a data object with the property values
+  const data = {
+    title: values.title,
+    price: values.price,
+    rooms: values.rooms,
+    bathrooms: values.bathrooms,
+    parkingLots: values.parkingLots,
+    description: values.description,
+    swimmingPool: values.swimmingPool,
+    garden: values.garden,
+    airConditioning: values.airConditioning,
+    internet: values.internet,
+    location: center.value,
+  };
+
+  // Check if a new image was uploaded
+  if (photo.value) {
+    data.image = photo.value; // Assign the new image
+  } else {
+    data.image = property.value.image; // Assign the existing image
+  }
+
+  await updateDoc(docRef, data);
+  router.push({ name: "admin-properties" });
+});
 </script>
 
 <template>
@@ -70,8 +96,8 @@ const submit = handleSubmit((values) => {});
       ></v-text-field>
 
       <v-file-input
-        v-model="photo.value.value"
-        :error-messages="photo.errorMessage.value"
+        v-model="image.value.value"
+        :error-messages="image.errorMessage.value"
         accept="image/jpeg"
         prepend-icon="mdi-camera"
         label="Photo"
@@ -82,7 +108,7 @@ const submit = handleSubmit((values) => {});
       <div class="my-5">
         <p class="font-weight-bold">Actual Image:</p>
 
-        <img v-if="image" class="w50" :src="image" />
+        <img v-if="photo" class="w50" :src="photo" />
 
         <img v-else class="w50" :src="property?.image" />
       </div>

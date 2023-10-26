@@ -18,7 +18,7 @@ const submit = handleSubmit((values) => {
 </script>
 
 <template>
-  <v-card flat max-width="600" class="mx-auto my-10">
+  <v-card flat max-width="600" class="mx-auto my-10" style="padding: 1.4rem;">
     <v-card-title class="text-h4 font-weight-bold"> Login </v-card-title>
 
     <v-card-subtitle class="text-h6 mb-5">

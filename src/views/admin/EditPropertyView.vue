@@ -81,6 +81,10 @@ const submit = handleSubmit((values) => {});
 
       <div class="my-5">
         <p class="font-weight-bold">Actual Image:</p>
+
+        <img v-if="image" class="w50" :src="image" />
+
+        <img v-else class="w50" :src="property?.image" />
       </div>
 
       <v-text-field

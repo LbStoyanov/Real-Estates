@@ -1,7 +1,7 @@
 import {ref} from "vue";
 
 export default function useLocationMap() {
-    const zoom = ref(5);
+    const zoom = ref(15);
     const center = ref([10.25, -78.23]);
 
     function pin(e) {

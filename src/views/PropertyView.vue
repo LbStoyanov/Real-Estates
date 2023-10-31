@@ -15,7 +15,7 @@ const property = useDocument(docRef);
     <v-card-title class="mt-5 text-h3 text-center py-5 font-weight-bold">
       {{ property?.title }}
     </v-card-title>
-    <v-img :src="property?.image" height="550"></v-img>
+    <v-img :src="property?.image" height="450"></v-img>
 
     <div class="bg-blue-grey-lighten-4 d-flex flex-column flex-md-row">
       <v-card-text>
@@ -29,7 +29,7 @@ const property = useDocument(docRef);
         <span class="font-weight-bold">{{ property?.bathrooms }}</span>
       </v-card-text>
       <v-card-text>
-        Parking Logs:
+        Parking Lots:
         <span class="font-weight-bold">{{ property?.parkingLots }}</span>
       </v-card-text>
       <v-card-text>
@@ -43,7 +43,7 @@ const property = useDocument(docRef);
       </v-col>
       <v-col cols="12" md="4">
         <div class="py-10">
-            <p>Map</p>
+          <p>Map</p>
         </div>
       </v-col>
     </v-row>

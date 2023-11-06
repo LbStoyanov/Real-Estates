@@ -1,5 +1,6 @@
 import {collection, doc, deleteDoc} from "firebase/firestore";
-import {useFirestore, useCollection} from "vuefire";
+import {ref as storageRef, deleteObject} from "firebase/storage";
+import {useFirestore, useCollection, useFirebaseStorage} from "vuefire";
 import {computed, ref} from "vue";
 
 export default function useProperties() {
@@ -8,13 +9,16 @@ export default function useProperties() {
     const airConditioning = ref(false);
     const internet = ref(false);
 
+    const storage = useFirebaseStorage();
     const db = useFirestore();
     const propertiesCollection = useCollection(collection(db, "properties"));
 
-    async function deletePropertyById(id) {
+    async function deletePropertyById(id, imageUrl) {
         //Add vue delete dialog for confirmation of deleting the selected property
         const docRef = doc(db, "properties", id);
-        await deleteDoc(docRef);
+        const imageRef = storageRef(storage, imageUrl);
+
+        await Promise.all([deleteDoc(docRef), deleteObject(imageRef)]);
     }
 
     const filteredProperties = computed(() => {

@@ -62,7 +62,7 @@ watch(property, (property) => {
           >
             <LMarker :lat-lng="center">
               <LPopup>
-                {{ property.title }}
+                {{ property?.title }}
               </LPopup>
             </LMarker>
             <LTileLayer

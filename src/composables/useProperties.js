@@ -1,4 +1,4 @@
-import {collection} from "firebase/firestore";
+import {collection, doc, deleteDoc} from "firebase/firestore";
 import {useFirestore, useCollection} from "vuefire";
 import {computed, ref} from "vue";
 
@@ -10,6 +10,12 @@ export default function useProperties() {
 
     const db = useFirestore();
     const propertiesCollection = useCollection(collection(db, "properties"));
+
+    async function deletePropertyById(id) {
+        //Add vue delete dialog for confirmation of deleting the selected property
+        const docRef = doc(db, "properties", id);
+        await deleteDoc(docRef);
+    }
 
     const filteredProperties = computed(() => {
         return propertiesCollection.value.filter((property) => {
@@ -40,5 +46,6 @@ export default function useProperties() {
         garden,
         airConditioning,
         internet,
+        deletePropertyById,
     };
 }

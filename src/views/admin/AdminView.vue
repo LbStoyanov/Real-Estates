@@ -1,9 +1,10 @@
 <script setup>
 import useProperties from "@/composables/useProperties";
-import {propertyPrice} from '@/helpers'
+import { propertyPrice } from "@/helpers";
 
-const { propertiesCollection } = useProperties();
+const { propertiesCollection, deletePropertyById } = useProperties();
 </script>
+
 <template>
   <h2 class="text-center text-h3 my-5 font-weight-bold">Admin Panel</h2>
   <v-btn color="blue" variant="flat" :to="{ name: 'new-property' }"
@@ -32,7 +33,9 @@ const { propertiesCollection } = useProperties();
           >
             Edit
           </v-btn>
-          <v-btn color="red-darken-3"> Delete </v-btn>
+          <v-btn color="red-darken-3" @click="deletePropertyById(property.id)">
+            Delete
+          </v-btn>
         </template>
       </v-list-item>
     </v-list>

@@ -5,20 +5,22 @@ import { ref } from "vue";
 
 const { propertiesCollection, deletePropertyById } = useProperties();
 const dialog = ref(false);
-const confirmDelete = (propertyId) => {
+const confirmDelete = (propertyId, imageUrl) => {
   // Set the property ID to be deleted
   propertyToDeleteId.value = propertyId;
+  imageToDeleteUrl.value = imageUrl;
   dialog.value = true;
 };
 const deleteProperty = () => {
   // Call the deletePropertyById function with the stored property ID
-  deletePropertyById(propertyToDeleteId.value);
+  deletePropertyById(propertyToDeleteId.value, imageToDeleteUrl.value);
 
   // Close the confirmation dialog
   dialog.value = false;
 };
 
 const propertyToDeleteId = ref(null);
+const imageToDeleteUrl = ref(null);
 </script>
 
 <template>
@@ -50,7 +52,9 @@ const propertyToDeleteId = ref(null);
             >
               Edit
             </v-btn>
-            <v-btn color="red-darken-3" @click="confirmDelete(property.id)"
+            <v-btn
+              color="red-darken-3"
+              @click="confirmDelete(property.id, property.image)"
               >Delete</v-btn
             >
           </template>
